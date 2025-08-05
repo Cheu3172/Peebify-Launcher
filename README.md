@@ -19,4 +19,4 @@ Peebify started so I could learn a bit more about JavaScript, and it's built wit
 ## Administrator Required for Full Functionality
 - **Why?** Peebify requires administrator access to enable the "Force Game Close" feature in Quick Settings.
 ## ❤️ Credits
-- **Author:** [Acheuy](https://github.com/Cheu3172)
+- **Programmers:** [Acheuy](https://github.com/Cheu3172) & [Blackwolf](https://github.com/blackwolf660)
