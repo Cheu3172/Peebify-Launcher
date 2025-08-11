@@ -2,6 +2,19 @@
 Peebify is an alternative launcher for the game Wuthering Waves, created out of sheer boredom; it's a passion project packed with all the functionality you'd expect from a modern launcher.
 
 <a href="https://ibb.co/7dGrW2NR"><img src="https://i.ibb.co/W4cBygpP/Screenshot-2025-08-02-122520.png" alt="Screenshot-2025-08-02-122520" border="0"></a>
+## ✨ Future Plans
+- Update the visuals on the Launcher Update & Install prompt
+- Update the visuals, or remove the play-time editor prompt
+- Update the visuals, and data shown for repair game to show more useful information.
+- Update the visuals of the actual notification inside of the launcher notification tray.
+- Change the auto-updater for launcher to be apart of the pre-checks to open the launcher, than prompt right after full open.
+- Change the game auto-updater to be apart of the pre-checks to open the launcher, than prompt to install/update after full open.
+- Add a warning prompt to "Uninstall Game"
+- Add a warning prompt to "Move Game Install"
+- Add a notification for "Uninstall Game", "Move Game Install", "Automatic Check-update", etc...
+- Add a Pity Tracker
+- Add a Inventory tracker (Try to find an automatic way, might be manual updates done by user)
+- Add a setting to hide certain elements such as Social Tray, Quick Settings, Community Tools, Side-bar, etc. This would go under "appearance"
 ## ✨ Features
 - Game Management: Easily install, update, and launch Wuthering Waves.
 - Auto-Updates: The launcher keeps itself up-to-date automatically, so you always have the latest version.
