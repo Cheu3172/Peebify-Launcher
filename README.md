@@ -18,7 +18,7 @@ Peebify is an alternative launcher for the game Wuthering Waves, created out of 
 - Add a setting to hide certain elements such as Social Tray, Quick Settings, Community Tools, Side-bar, etc. This would go under "appearance"
 ## Bugs :(
 - Launcher Update sometimes reads "You're on the latest install" even though the user is actually not... usually occurs when an update is pushed and their launcher is already open.
-~~- Launcher when opened sometimes does not recall launcher configuration, this may be fixed! Waiting on reports.~~
+- ~~Launcher when opened sometimes does not recall launcher configuration, this may be fixed! Waiting on reports.~~
 ## ✨ Features
 - Game Management: Easily install, update, and launch Wuthering Waves.
 - Auto-Updates: The launcher keeps itself up-to-date automatically, so you always have the latest version.
