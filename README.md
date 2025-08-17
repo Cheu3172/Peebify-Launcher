@@ -3,16 +3,16 @@ Peebify is an alternative launcher for the game Wuthering Waves, created out of 
 
 <a href="https://ibb.co/2T1s6Sd"><img src="https://i.ibb.co/sZd6PCq/banner.png" alt="banner" border="0"></a>
 ## ✨ Future Plans
-- ~~Update the visuals on the Launcher Update & Install prompt~~ (Peebify Launcer V2.3.0)
-- ~~Update the visuals, or remove the play-time editor prompt~~ (Peebify Launcer V2.3.0)
-- Update the visuals, and data shown for repair game to show more useful information.
-- ~~Update the visuals of the actual notification inside of the launcher notification tray.~~ (Peebify Launcer V2.3.0)
-- Change the auto-updater for launcher to be apart of the pre-checks to open the launcher, than prompt right after full open.
-- Change the game auto-updater to be apart of the pre-checks to open the launcher, than prompt to install/update after full open.
+- ~~Update the visuals on the Launcher Update & Install prompt~~ `Peebify Launcer V2.3.0+`
+- ~~Update the visuals, or remove the play-time editor prompt~~ `Peebify Launcer V2.3.0+`
+- Update the visuals, and data shown for repair game to show more useful information. `Peebify Launcer V2.3.2+ [Beta]`
+- ~~Update the visuals of the actual notification inside of the launcher notification tray.~~ `Peebify Launcer V2.3.0+`
+- ~~Change the auto-updater for launcher to be apart of the pre-checks to open the launcher, than prompt right after full open.~~ `Peebify Launcer V2.3.2+ [Beta]`
+- ~~Change the game auto-updater to be apart of the pre-checks to open the launcher, than prompt to install/update after full open.~~ `Peebify Launcer V2.3.2+ [Beta]`
 - Add an actual installer so we don't use electrons installer everytime, same for updater (This is a lot of work)
-- Add a warning prompt to "Uninstall Game"
-- Add a warning prompt to "Move Game Install"
-- Add a notification for "Uninstall Game", "Move Game Install", "Automatic Check-update", etc...
+- ~~Add a warning prompt to "Uninstall Game"~~ `Peebify Launcer V2.3.2+ [Beta]`
+- ~~Add a warning prompt to "Move Game Install"~~ `Peebify Launcer V2.3.2+ [Beta]`
+- ~~Add a notification for "Uninstall Game", "Move Game Install", "Automatic Check-update", etc...~~ `Peebify Launcer V2.3.2+ [Beta]`
 - Add a Pity Tracker
 - Add a Inventory tracker (Try to find an automatic way, might be manual updates done by user)
 - Add a setting to hide certain elements such as Social Tray, Quick Settings, Community Tools, Side-bar, etc. This would go under "appearance"
