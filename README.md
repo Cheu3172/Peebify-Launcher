@@ -35,4 +35,5 @@ Peebify started so I could learn a bit more about JavaScript, and it's built wit
 ## Can I unpackage Peebify Launcher.exe?
 - **Yeah!** Go right ahead :D
 ## ❤️ Credits
-- **Programmers:** [Acheuy](https://github.com/Cheu3172) & [Blackwolf](https://github.com/blackwolf660)
+- **Developer:** [Acheuy](https://github.com/Cheu3172)
+- **Helpers/Cuties:** [MrFlashStudio](https://github.com/mrflashstudio) & [Blackwolf](https://github.com/blackwolf660)
