@@ -32,5 +32,7 @@ Peebify is an alternative launcher for the game Wuthering Waves, created out of 
 Peebify started so I could learn a bit more about JavaScript, and it's built with a combination of hand-written code and a little help from AI. This public repository is mainly for the auto-update function and releases.
 ## Administrator Required for Full Functionality
 - **Why?** Peebify requires administrator access to enable the "Force Game Close" feature in Quick Settings.
+## Can I unpackage Peebify Launcher.exe?
+- **Yeah!** Go right ahead :D
 ## ❤️ Credits
 - **Programmers:** [Acheuy](https://github.com/Cheu3172) & [Blackwolf](https://github.com/blackwolf660)
