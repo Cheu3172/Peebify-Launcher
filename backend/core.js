@@ -644,5 +644,4 @@ module.exports = {
     CoreUtils,
     GameUtils,
     ProgressTracker
-
 };

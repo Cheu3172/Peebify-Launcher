@@ -21,7 +21,7 @@
         "is-elevated": "^4.0.0"
     },
     "build": {
-        "appId": "peebify.launcher",
+        "appId": "com.peebify.launcher",
         "productName": "Peebify Launcher",
         "publish": {
             "provider": "github",

@@ -109,6 +109,13 @@ class LauncherUI {
         console.log("🚀 Initializing Peebify Launcher UI...");
         document.body.style.opacity = '0';
         this.cacheDOMElements();
+
+        if (this.elements.UPDATE_TITLE_IMAGE) {
+            this.elements.UPDATE_TITLE_IMAGE.addEventListener('error', () => {
+                this.elements.UPDATE_TITLE_IMAGE.style.display = 'none';
+            });
+        }
+
         this._checkForBetaBuild();
         try {
             this.data.settings = await window.api.invoke('get-launcher-settings');
