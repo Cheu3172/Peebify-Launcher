@@ -1,0 +1,48 @@
+{
+    "name": "peebify-launcher",
+    "productName": "Peebify Launcher",
+    "version": "2.4.4",
+    "description": "A launcher for Wuthering Waves inspired by the character Phoebe.",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "dev": "electron .",
+        "build": "electron-builder",
+        "dist": "npm run build"
+    },
+    "author": "Acheuy",
+    "license": "ISC",
+    "devDependencies": {
+        "electron": "^38.1.2",
+        "electron-builder": "^26.0.12"
+    },
+    "dependencies": {
+        "electron-updater": "^6.6.2",
+        "is-elevated": "^4.0.0"
+    },
+    "build": {
+        "appId": "peebify.launcher",
+        "productName": "Peebify Launcher",
+        "publish": {
+            "provider": "github",
+            "owner": "Cheu3172",
+            "repo": "Peebify_Launcher"
+        },
+        "directories": {
+            "output": "release"
+        },
+        "win": {
+            "target": "nsis",
+            "icon": "frontend/icons/app.png",
+            "requestedExecutionLevel": "requireAdministrator",
+            "compression": "maximum"
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true,
+            "perMachine": true,
+            "allowElevation": true
+        },
+        "artifactName": "Peebify-Launcher-Setup-${version}.${ext}"
+    }
+}
