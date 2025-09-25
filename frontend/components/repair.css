@@ -1,0 +1,267 @@
+.repair-view {
+    background: rgba(18, 18, 22, 0.6);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    height: 100%;
+    padding: 40px;
+    overflow-y: hidden;
+}
+
+.repair-main-panel {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: auto;
+}
+
+.repair-main-header {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.repair-main-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.repair-idle-container {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin: 0 auto;
+    width: 600px;
+}
+
+.repair-idle-container .settings-button.accent {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    color: #fff;
+}
+.repair-idle-container .settings-button.accent:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
+}
+
+.repair-idle-info h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.repair-idle-info p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    width: 450px;
+    line-height: 1.6;
+}
+
+.repair-progress-container {
+    display: none;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 800px;
+}
+
+.repair-progress-container > *:not(:last-child) {
+    margin-bottom: 24px;
+}
+
+.repair-status-header {
+    text-align: center;
+}
+
+.repair-status-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.repair-status-header p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.progress-card, .stat-card, .log-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px 24px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.progress-label {
+    font-weight: 500;
+}
+
+progress {
+    width: 752px;
+    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+progress::-webkit-progress-bar {
+    background-color: rgba(0,0,0,0.3);
+}
+
+progress::-webkit-progress-value {
+    background-color: #60a5fa;
+    transition: width 0.1s linear;
+}
+
+.repair-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.stat-card h5 {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.stat-card p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stat-card.full-span {
+    grid-column: span 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.log-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+}
+
+.log-header h5 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+#repairLog {
+    width: 752px;
+    flex-grow: 1;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: rgba(255,255,255,0.7);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    padding: 14px;
+    resize: none;
+}
+
+#repairLog::-webkit-scrollbar {
+    width: 8px;
+}
+#repairLog::-webkit-scrollbar-track {
+    background: transparent;
+}
+#repairLog::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+}
+
+.repair-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.repair-actions .settings-button {
+    min-width: 140px;
+}
+
+#completeRepairBtn {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+}
+
+#completeRepairBtn:hover {
+    background: rgba(34, 197, 94, 0.25);
+    border-color: rgba(34, 197, 94, 0.5);
+    color: #16a34a;
+}
+
+.repair-options {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 800px;
+    margin: 0 auto;
+}
+
+.repair-option-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+}
+
+.repair-option-info h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.repair-option-info p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    width: 500px;
+    line-height: 1.6;
+}
+
+.repair-option-card .settings-button {
+    min-width: 200px;
+}
+
+.repair-option-card .settings-button.accent {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    color: #fff;
+}
+.repair-option-card .settings-button.accent:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
+}

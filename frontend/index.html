@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https://hw-pcdownload-qcloud.aki-game.net https://prod-alicdn-gamestarter.kurogame.com; media-src 'self' https://hw-pcdownload-qcloud.aki-game.net https://prod-alicdn-gamestarter.kurogame.com;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peebify Launcher</title>
+    <link rel="stylesheet" href="components/main.css">
+    <link rel="stylesheet" href="components/settings.css">
+    <link rel="stylesheet" href="components/repair.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    </head>
+<body>
+    <div class="app-container">
+        <div id="background-container">
+            </div>
+
+        <div class="drag-region"></div>
+
+        <div class="main-container">
+            <nav class="sidebar">
+                <div class="nav-menu">
+                    <button class="nav-item active" data-view="homeView">
+                        <div class="nav-item-content"><i class="fas fa-home"></i><span class="nav-text">Home</span></div>
+                    </button>
+                    <button class="nav-item" data-view="repairView">
+                        <div class="nav-item-content"><i class="fas fa-wrench"></i><span class="nav-text">Repair</span></div>
+                    </button>
+                </div>
+                <div class="nav-menu-bottom">
+                    <button class="nav-item" data-view="appSettingsView">
+                        <div class="nav-item-content"><i class="fas fa-cog"></i><span class="nav-text">Settings</span></div>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="content-container">
+                <div class="view home-view active" id="homeView">
+                    <div id="betaBuildIndicator" class="beta-indicator hidden">Beta Build</div>
+                    <img src="images/update.webp" class="update-title-image" alt="Update Title" onerror="this.style.display='none';">
+                    <div class="home-layout">
+                        <div class="top-right-controls">
+                            <div class="window-controls-overlay">
+                                <button class="window-control-btn" id="minimizeBtn" title="Minimize"><i class="fas fa-minus"></i></button>
+                                <button class="window-control-btn close-btn" id="closeBtn" title="Close"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="socials-tray">
+                            <div class="socials-panel">
+                                <div class="socials-content">
+                                    <a href="#" class="social-item" data-platform="discord" title="Discord"><img src="icons/socials/discord.png" alt="Discord"></a>
+                                    <a href="#" class="social-item" data-platform="youtube" title="YouTube"><img src="icons/socials/youtube.png" alt="YouTube"></a>
+                                    <a href="#" class="social-item" data-platform="x" title="X (Twitter)"><img src="icons/socials/X.png" alt="X"></a>
+                                    <a href="#" class="social-item" data-platform="lunite" title="Lunite"><img src="icons/socials/lunite.png" alt="Lunite"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="news-panel">
+                            <div class="news-banner-container">
+                                <div class="slideshow-container"></div>
+                                <div class="slideshow-dots"></div>
+                            </div>
+                            <nav class="news-nav">
+                                <button class="news-tab active" data-tab="notice">Notice</button>
+                                <button class="news-tab" data-tab="news">News</button>
+                            </nav>
+                            <div class="news-content-container">
+                                <div class="news-content active" id="news-content-notice">
+                                </div>
+                                <div class="news-content" id="news-content-news">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="progress-container" id="downloadProgressContainer">
+                            <div class="progress-bar-info">
+                                <span class="progress-bar-status" id="downloadStatus">Downloading...</span>
+                                <span class="progress-bar-percentage" id="downloadPercentage">0%</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" id="downloadFill"></div></div>
+                            <div class="progress-bar-stats">
+                                <span id="downloadSpeed">0 MB/s</span>
+                                <span id="downloadEta">ETA: --</span>
+                            </div>
+                        </div>
+
+                        <div class="progress-container" id="homeRepairProgressContainer">
+                            <div class="progress-bar-info">
+                                <span class="progress-bar-status" id="homeRepairStatus">Repairing...</span>
+                                <span class="progress-bar-percentage" id="homeRepairPercentage">0%</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress-bar-fill" id="homeRepairFill"></div></div>
+                            <div class="progress-bar-stats"><span id="homeRepairSubStatus">Validating files...</span></div>
+                        </div>
+
+                        <div class="game-actions-bottom">
+                            <button class="start-btn" id="startGameBtn">
+                                <i class="fas fa-play"></i><span>Start</span>
+                            </button>
+
+                            <div class="playtime-tracker">
+                                <i class="fas fa-clock"></i>
+                                <span id="playtimeDisplay">0h 0m 0s</span>
+                                <div class="playtime-stats-flyout">
+                                    <div class="playtime-stats-header">
+                                        <h4>Playtime</h4>
+                                    </div>
+                                    <div class="playtime-stats-body">
+                                        <div class="stats-row">
+                                            <span class="stat-label">Today</span>
+                                            <span class="stat-value" id="playtimeToday">0h 0m</span>
+                                        </div>
+                                        <div class="stats-row">
+                                            <span class="stat-label">This Week</span>
+                                            <span class="stat-value" id="playtimeWeek">0h 0m</span>
+                                        </div>
+                                        <div class="stats-row">
+                                            <span class="stat-label">This Month</span>
+                                            <span class="stat-value" id="playtimeMonth">0h 0m</span>
+                                        </div>
+                                        <div class="stats-row">
+                                            <span class="stat-label">All Time</span>
+                                            <span class="stat-value" id="playtimeTotal">0h 0m</span>
+                                        </div>
+                                        <div class="stats-row" style="margin-top: 6px;">
+                                            <span class="stat-label">Avg. Session</span>
+                                            <span class="stat-value" id="averageSession">0m</span>
+                                        </div>
+                                        <div class="stats-row">
+                                            <span class="stat-label">Last Played</span>
+                                            <span class="stat-value" id="recentSessionDuration">N/A</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bottom-right-actions">
+                            <div class="dropdown-container" id="community-tools-container">
+                                <button class="action-btn" id="communityToolsBtn"><i class="fas fa-users"></i><span>Community Tools</span></button>
+                                <div class="dropdown-menu" id="communityToolsDropdown"></div>
+                            </div>
+                            <div class="dropdown-container" id="quick-settings-container">
+                                <button class="action-btn" id="quickSettingsBtn"><i class="fas fa-cog"></i><span>Quick Settings</span></button>
+                                <div class="dropdown-menu" id="quickSettingsDropdown">
+                                    <div class="dropdown-section">
+                                        <div class="dropdown-option" data-action="check-updates"><i class="fas fa-sync-alt"></i><span>Check for Game Updates</span></div>
+                                        <div class="dropdown-option" data-action="open-game-folder"><i class="fas fa-folder-open"></i><span>Game Folder</span></div>
+                                        <div class="dropdown-option" data-action="open-screenshot-folder"><i class="fas fa-camera"></i><span>Screenshots</span></div>
+                                    </div>
+                                    <div class="dropdown-section">
+                                        <div class="dropdown-section-title">Game Installation</div>
+                                        <div class="dropdown-option" data-action="change-install-location"><i class="fas fa-search-location"></i><span>Change Location</span></div>
+                                        <div class="dropdown-option" data-action="move-game-location"><i class="fas fa-arrows-alt"></i><span>Move Installation</span></div>
+                                        <div class="dropdown-option" data-action="uninstall-game"><i class="fas fa-trash"></i><span>Uninstall</span></div>
+                                        <div class="dropdown-option" data-action="force-close-game"><i class="fas fa-power-off"></i><span>Force Close</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="view app-settings-view" id="appSettingsView">
+                    <div class="settings-layout">
+                        <aside class="settings-sidebar">
+                            <div class="settings-sidebar-header">
+                                <h1>Settings</h1>
+                            </div>
+                            <nav class="settings-nav">
+                                <button class="settings-nav-item active" data-category="general"><i class="fas fa-sliders-h"></i><span>Behavior</span></button>
+                                <button class="settings-nav-item" data-category="appearance"><i class="fas fa-paint-brush"></i><span>Appearance</span></button>
+                                <button class="settings-nav-item" data-category="about"><i class="fas fa-info-circle"></i><span>About</span></button>
+                            </nav>
+                        </aside>
+
+                        <main class="settings-content">
+                            <div class="settings-category active" id="settings-category-general">
+                                <div class="settings-category-header">
+                                    <h2>Preferences</h2>
+                                    <p>Manage launcher behavior and performance.</p>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Auto-Launch Game</h5>
+                                        <p>Automatically start the game when the launcher opens.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="autoLaunchGame">
+                                            <button data-value="false" class="active">Disable</button>
+                                            <button data-value="true">Enable</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-group">
+                                    <div class="setting-card">
+                                        <div class="setting-card-content">
+                                            <h5>Start with Windows</h5>
+                                            <p>Open the launcher on startup.</p>
+                                        </div>
+                                        <div class="setting-card-control">
+                                            <div class="segmented-control" data-setting="startOnBoot">
+                                                <button data-value="false" class="active">Disable</button>
+                                                <button data-value="true">Enable</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="setting-card sub-setting" id="startOnBootActionCard">
+                                        <div class="setting-card-content">
+                                            <h5>Startup Mode</h5>
+                                            <p>Choose how the launcher starts.</p>
+                                        </div>
+                                        <div class="setting-card-control">
+                                            <div class="segmented-control" data-setting="startOnBootAction">
+                                                <button data-value="open" class="active">Open</button>
+                                                <button data-value="minimize">Minimize</button>
+                                                <button data-value="tray">To Tray</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>When Game Launches</h5>
+                                        <p>Action when game launches.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="launchAction">
+                                            <button data-value="minimize" class="active">Minimize</button>
+                                            <button data-value="tray">To Tray</button>
+                                            <button data-value="close">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>When You Close the Launcher</h5>
+                                        <p>Action for the close (X) button.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="closeAction">
+                                            <button data-value="minimize">Minimize</button>
+                                            <button data-value="tray">To Tray</button>
+                                            <button data-value="close" class="active">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>When You Minimize the Launcher</h5>
+                                        <p>Action for the minimize (-) button.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="minimizeAction">
+                                            <button data-value="minimize" class="active">Minimize</button>
+                                            <button data-value="tray">To Tray</button>
+                                            <button data-value="close">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-category" id="settings-category-appearance">
+                                <div class="settings-category-header">
+                                    <h2>Appearance</h2>
+                                    <p>Change how the launcher looks and feels.</p>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Custom Wallpaper</h5>
+                                        <p>Use a local image or video as your background.</p>
+                                        <p class="setting-description" id="currentWallpaperPath" style="-stylfonte: italic; color: rgba(255,255,255,0.4); margin-top: 8px; word-break: break-all;"></p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <button class="settings-button" id="selectWallpaperBtn"><i class="fas fa-image"></i><span>Select File</span></button>
+                                        <button class="settings-button" id="resetWallpaperBtn"><i class="fas fa-undo"></i><span>Reset</span></button>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>UI Corners</h5>
+                                        <p>Choose between rounded or square corners for the UI.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="uiCornerRadius">
+                                            <button data-value="round" class="active">Round</button>
+                                            <button data-value="square">Square</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Hide News Panel</h5>
+                                        <p>Hide the news, notices, and image slideshow.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="hideNewsPanel">
+                                            <button data-value="false" class="active">Visible</button>
+                                            <button data-value="true">Hidden</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Hide Sidebar</h5>
+                                        <p>Hide the sidebar on home page until you hover over it.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="invisibleSidebar">
+                                            <button data-value="false" class="active">Visible</button>
+                                            <button data-value="true">Hidden</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Hide Socials</h5>
+                                        <p>Hide the social media links on the home page.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="hideSocials">
+                                            <button data-value="false" class="active">Visible</button>
+                                            <button data-value="true">Hidden</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Hide Bottom Buttons</h5>
+                                        <p>Hide the buttons in the bottom-right corner.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="hideBottomRightButtons">
+                                            <button data-value="false" class="active">Visible</button>
+                                            <button data-value="true">Hidden</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Hide Playtime</h5>
+                                        <p>Hide the playtime tracker next to the launch button.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="hidePlaytime">
+                                            <button data-value="false" class="active">Visible</button>
+                                            <button data-value="true">Hidden</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Hide Update Title</h5>
+                                        <p>Hide the large update image on the home screen.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="hideVersionTitle">
+                                            <button data-value="false" class="active">Visible</button>
+                                            <button data-value="true">Hidden</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-category" id="settings-category-about">
+                                <div class="settings-category-header">
+                                    <h2>About</h2>
+                                    <p>Launcher info, updates, and data management.</p>
+                                </div>
+
+                                <div class="about-info-card">
+                                    <div class="about-info-header">
+                                        <h4>Launcher Version</h4>
+                                        <span class="version-text" id="launcherVersionDisplay">Loading...</span>
+                                    </div>
+                                    <p class="about-info-description">The current version of the Peebify Launcher.</p>
+                                    <div class="about-info-footer">
+                                        <a href="#" class="about-social-link" data-action="open-external-url" data-url="https://github.com/Cheu3172/Peebify_Launcher">
+                                            <img src="icons/socials/github.png" alt="GitHub">
+                                            <span>View on GitHub</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Update Channel</h5>
+                                        <p>Choose between stable & beta builds for the launcher.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <div class="segmented-control" data-setting="updateBranch">
+                                            <button data-value="stable" class="active">Stable</button>
+                                            <button data-value="beta">Beta</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="setting-group">
+                                    <div class="setting-card">
+                                        <div class="setting-card-content">
+                                            <h5>Check for Launcher Updates</h5>
+                                            <p>Manually check for a new version of the launcher.</p>
+                                        </div>
+                                        <div class="setting-card-control">
+                                            <button class="settings-button" id="checkLauncherUpdateBtn"><i class="fas fa-sync-alt"></i><span>Check Now</span></button>
+                                        </div>
+                                    </div>
+                                    <div class="setting-card sub-setting" id="launcherUpdateStatusContainer" style="display: none;">
+                                        <div class="setting-card-content">
+                                            <h5>Launcher Update</h5>
+                                            <p id="launcherUpdateStatusText">Checking...</p>
+                                        </div>
+                                        <div class="setting-card-control">
+                                            <button class="settings-button" id="installUpdateBtn" style="display: none;"><i class="fas fa-download"></i><span>Install</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Open Logs Folder</h5>
+                                        <p>Open the folder with launcher logs for troubleshooting.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <button class="settings-button" id="openLogsBtn"><i class="fas fa-folder-open"></i><span>Open Now</span></button>
+                                    </div>
+                                </div>
+                                <div class="setting-card">
+                                    <div class="setting-card-content">
+                                        <h5>Clear Launcher Data</h5>
+                                        <p>Deletes all launcher settings. This can't be undone.</p>
+                                    </div>
+                                    <div class="setting-card-control">
+                                        <button class="settings-button danger" id="wipeDataBtn"><i class="fas fa-trash-alt"></i><span>Clear Data</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+
+                <div class="view repair-view" id="repairView">
+                    <div class="repair-main-panel">
+                        <div class="repair-main-header"><h1>Game Repair</h1></div>
+
+                        <div class="repair-options" id="repairIdleContainer">
+                            <div class="repair-option-card">
+                                <div class="repair-option-info">
+                                    <h3>Quick Check</h3>
+                                    <p>Verifies files against the locally stored index (`OriginResource.json`). This is much faster but may not catch all issues if the index itself is outdated.</p>
+                                </div>
+                                <button class="settings-button accent" id="startQuickRepairBtn">
+                                    <i class="fas fa-rocket"></i><span>Start Quick Check</span>
+                                </button>
+                            </div>
+                            <div class="repair-option-card">
+                                <div class="repair-option-info">
+                                    <h3>Full Check</h3>
+                                    <p>Downloads the latest file index from the server and verifies every file. This is slower but guarantees a complete and accurate repair.</p>
+                                </div>
+                                <button class="settings-button" id="startFullRepairBtn">
+                                    <i class="fas fa-server"></i><span>Start Full Check</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="repair-progress-container" id="repairProgressContainer" style="display: none;">
+                            <div class="repair-status-header">
+                                <h2 id="repairStatusText">Repairing...</h2>
+                                <p id="repairSubStatusText">Please wait...</p>
+                            </div>
+
+                            <div class="progress-card">
+                                <div class="progress-info">
+                                    <span class="progress-label">Overall Progress</span>
+                                    <span class="progress-percentage" id="totalPercentage">0%</span>
+                                </div>
+                                <progress id="totalProgress" value="0" max="100"></progress>
+                            </div>
+
+                            <div class="repair-stats-grid">
+                                <div class="stat-card">
+                                    <h5>Files Checked</h5>
+                                    <p id="filesChecked">0 / 0</p>
+                                </div>
+                                <div class="stat-card">
+                                    <h5>Corrupted Files</h5>
+                                    <p id="filesToRepair">0</p>
+                                </div>
+                                <div class="stat-card full-span">
+                                    <h5>Current Action</h5>
+                                    <p id="currentFileAction">---</p>
+                                </div>
+                            </div>
+
+                            <div class="log-card">
+                                <div class="log-header">
+                                    <h5>Repair Log</h5>
+                                </div>
+                                <textarea id="repairLog" readonly></textarea>
+                            </div>
+
+                            <div class="repair-actions">
+                                <button class="settings-button" id="cancelRepairBtn"><i class="fas fa-times"></i><span>Cancel</span></button>
+                                <button class="settings-button" id="completeRepairBtn" style="display: none;"><i class="fas fa-check"></i><span>Complete</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="installationModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Install Game</h2><button id="closeInstallationModalBtn" class="modal-close-btn">&times;</button></div>
+            <div class="modal-body installation-modal-body">
+                <h3>Wuthering Waves isn't installed</h3>
+                <p>Choose a directory to install it to</p>
+                <div class="installation-actions">
+                    <button id="selectInstallDirBtn" class="installation-btn primary"><i class="fas fa-folder-open"></i><span>Select Directory & Install</span></button>
+                </div>
+                <div class="existing-install-prompt">
+                    <p>Already have the game? <button id="selectExistingPathBtn" class="link-button">Locate it here</button></p>
+                    <div class="important-note">
+                        <p><strong>Note:</strong> Please select the folder containing <strong>Wuthering Waves.exe</strong>, the Steam version is not supported.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="launcherUpdateModal" class="modal-overlay">
+        <div class="modal-content prompt-modal-content">
+            <div class="modal-header">
+                <h2>Launcher Update Available</h2>
+            </div>
+            <div class="modal-body">
+                <p id="updateAvailableMessage">A new launcher version is available.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="updateLaterBtn" class="settings-button">Later</button>
+                <button id="downloadUpdateBtn" class="settings-button">Download Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="restartForUpdateModal" class="modal-overlay">
+        <div class="modal-content prompt-modal-content">
+            <div class="modal-header">
+                <h2>Update Ready to Install</h2>
+            </div>
+            <div class="modal-body">
+                <p id="restartUpdateMessage">The update has been downloaded. Restart now to apply it.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="restartLaterBtn" class="settings-button">Later</button>
+                <button id="restartNowBtn" class="settings-button">Restart Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="actionPromptModal" class="modal-overlay">
+        <div class="modal-content prompt-modal-content">
+            <div class="modal-header">
+                <h2 id="promptTitle">Are you sure?</h2>
+            </div>
+            <div class="modal-body">
+                <p id="promptMessage">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="promptCancelBtn" class="settings-button">Cancel</button>
+                <button id="promptConfirmBtn" class="settings-button danger">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="renderer.js" defer></script>
+</body>
+</html>

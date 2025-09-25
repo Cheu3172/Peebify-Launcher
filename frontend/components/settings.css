@@ -1,0 +1,388 @@
+.app-settings-view {
+    background: rgba(18, 18, 22, 0.6);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    height: 100%;
+    overflow: hidden;
+}
+
+.settings-layout {
+    display: flex;
+    height: 100%;
+}
+
+.settings-sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-sidebar-header {
+    padding: 0 30px;
+    margin-bottom: 24px;
+}
+
+.settings-sidebar-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.settings-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+}
+
+.settings-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+}
+
+.settings-nav-item i {
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+.settings-nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.settings-nav-item.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-weight: 600;
+}
+
+.settings-content {
+    flex-grow: 1;
+    padding: 40px 60px;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+.settings-content::-webkit-scrollbar {
+    width: 8px;
+}
+.settings-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.settings-content::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+}
+
+.settings-category {
+    display: none; 
+}
+.settings-category.active {
+    display: block; 
+}
+
+.settings-category-header {
+    padding-bottom: 12px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.settings-category-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+}
+.settings-category-header p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.setting-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-bottom: 20px;
+    transition: opacity 0.3s ease, max-height 0.3s ease-in-out, margin 0.3s ease-in-out, padding 0.3s ease-in-out;
+    min-height: fit-content;
+}
+
+.setting-group {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 20px;
+}
+.setting-group .setting-card {
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.setting-card.sub-setting {
+    padding-left: 48px;
+    position: relative;
+}
+
+.setting-card.sub-setting::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 0;
+    bottom: 50%;
+    width: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.setting-card.sub-setting::after {
+    content: '';
+    position: absolute;
+    left: 26px;
+    top: 50%;
+    width: 10px;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-50%);
+}
+
+.setting-card.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    border-width: 0;
+}
+
+.setting-card-content {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    margin-right: 16px;
+}
+.setting-card-content.full-width {
+    width: 100%;
+    flex-basis: 100%;
+    margin-right: 0;
+}
+
+.setting-card-content h5 {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: rgba(255, 255, 255, 0.95);
+}
+.setting-card-content p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 450px;
+    line-height: 1.5;
+}
+
+.setting-card-content p.setting-description {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 8px;
+}
+
+.setting-card-control {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-shrink: 0;
+    width: 280px;
+    justify-content: flex-end;
+}
+
+.setting-card-control > * {
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.setting-card-control > .settings-button {
+    flex-grow: 0;
+    flex-basis: 134px;
+}
+
+.setting-card:has(.setting-card-content.full-width) {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.setting-card:has(.setting-card-content.full-width) .setting-card-control {
+    align-self: flex-end;
+    margin-top: 16px;
+}
+
+.settings-button {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    min-width: 0;
+    justify-content: center;
+    height: 36px;
+    box-sizing: border-box;
+}
+.settings-button:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
+}
+.settings-button.danger {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+.settings-button.danger:hover {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.5);
+}
+.settings-button.accent {
+    background: #60a5fa;
+    border-color: #60a5fa;
+    color: #fff;
+}
+.settings-button.accent:hover {
+    background: #7bb4fb;
+    border-color: #7bb4fb;
+}
+
+.about-info-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.about-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.about-info-header h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.about-info-card .version-text {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 600;
+    line-height: 1;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+}
+
+.about-info-description {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 20px;
+}
+
+.about-info-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 16px;
+}
+
+.about-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.about-social-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.about-social-link img {
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+}
+
+.segmented-control {
+    display: flex;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 3px;
+    height: 36px;
+    box-sizing: border-box;
+    gap: 3px;
+}
+
+.segmented-control button {
+    background: transparent;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    flex: 1;
+    text-align: center;
+    min-width: 0;
+}
+
+.segmented-control button:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.segmented-control button.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-weight: 600;
+}
