@@ -34,7 +34,7 @@ const CONSTANTS = {
     MAX_CONCURRENT_DOWNLOADS: 8,
     MAX_CONCURRENT_REPAIRS: 8,
 
-    BUILD_TYPE: 'beta', // Manually set to 'stable' or 'beta'
+    BUILD_TYPE: 'stable', // Manually set to 'stable' or 'beta'
     APP_ID: '50004',
     APP_USER_MODEL_ID: 'com.peebify.launcher',
     TASK_NAME: 'PeebifyLauncherStartup'
@@ -644,4 +644,5 @@ module.exports = {
     CoreUtils,
     GameUtils,
     ProgressTracker
+
 };
