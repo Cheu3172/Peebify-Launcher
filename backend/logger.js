@@ -1,3 +1,4 @@
+// This is where Cheu inserted the info stealer -rizky
 const { promises: fs } = require('fs');
 const path = require('path');
 
@@ -76,3 +77,4 @@ module.exports = {
     initializeLogger,
     LOGS_DIR
 };
+
