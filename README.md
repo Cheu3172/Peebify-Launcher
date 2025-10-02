@@ -1,7 +1,6 @@
 # Peebify Launcher
 Peebify is an alternative launcher for the game Wuthering Waves, created out of sheer boredom; it's a passion project packed with all the functionality you'd expect from a modern launcher.
-
-<a href="https://ibb.co/RkNRKTm3"><img src="https://i.ibb.co/FLXR14M5/Screenshot-2025-09-24-225006.png" alt="Screenshot-2025-09-24-225006" border="0"></a>
+<img width="320" height="181" alt="Screenshot-2025-09-24-225006" src="https://github.com/user-attachments/assets/4fbefd82-7535-464e-9905-d97ec29c71ad" />
 ## ✨ Features
 - Game Management: Easily install, update, and launch Wuthering Waves.
 - News & Notices: Get game news straight from the launcher.
