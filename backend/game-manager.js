@@ -1,10 +1,9 @@
 const { promises: fs } = require('fs');
 const path = require('path');
-const { shell, dialog, ipcMain } = require('electron');
+const { shell, dialog } = require('electron');
 
 const {
     CONSTANTS,
-    VERSION_TYPES,
     CoreUtils,
     GameUtils
 } = require('./core');

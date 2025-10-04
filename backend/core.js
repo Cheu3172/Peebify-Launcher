@@ -34,7 +34,7 @@ const CONSTANTS = {
     MAX_CONCURRENT_DOWNLOADS: 8,
     MAX_CONCURRENT_REPAIRS: 8,
 
-    BUILD_TYPE: 'stable', // Manually set to 'stable' or 'beta'
+    BUILD_TYPE: 'beta', // Manually set to 'stable' or 'beta'
     APP_ID: '50004',
     APP_USER_MODEL_ID: 'com.peebify.launcher',
     TASK_NAME: 'PeebifyLauncherStartup'
@@ -488,38 +488,29 @@ class CoreUtils {
         return this._getLocalISODate(date);
     }
 
-    static async manageWindowsStartup(enable, execPath, appName = 'PeebifyLauncher') {
+    static async manageWindowsStartup(enable, execPath) {
         const taskName = CONSTANTS.TASK_NAME;
-        const regKeyPath = 'HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run';
 
         try {
             if (enable) {
-                const createTaskCommand = `schtasks /create /tn "${taskName}" /tr "\\"${execPath}\\" --from-boot" /sc onlogon /rl highest /f`;
-                await this.execAsync(createTaskCommand);
 
-                const regCommand = `reg add "${regKeyPath}" /v "${appName}" /t REG_SZ /d "\\"${execPath}\\" --from-boot" /f`;
-                await this.execAsync(regCommand);
+                const command = `schtasks /create /tn "${taskName}" /tr "\\"${execPath}\\" --from-boot" /sc onlogon /rl highest /f`;
+                await this.execAsync(command);
             } else {
-                try {
-                    await this.execAsync(`schtasks /delete /tn "${taskName}" /f`);
-                } catch (error) {
-                    if (!error.message.includes('cannot find')) throw error;
-                }
 
+                const command = `schtasks /delete /tn "${taskName}" /f`;
                 try {
-                    await this.execAsync(`reg delete "${regKeyPath}" /v "${appName}" /f`);
+                    await this.execAsync(command);
                 } catch (error) {
-                    if (!error.message.includes('unable to find')) throw error;
+
+                    if (!error.message.includes('cannot find')) {
+                        throw error;
+                    }
                 }
             }
-            return {
-                success: true
-            };
+            return { success: true };
         } catch (error) {
-            return {
-                success: false,
-                error: error.message
-            };
+            return { success: false, error: error.message };
         }
     }
 

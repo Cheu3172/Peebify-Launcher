@@ -1,4 +1,4 @@
-const { Notification } = require('electron');
+const { Notification, nativeImage } = require('electron');
 const path = require('path');
 
 const { CoreUtils } = require('./core');
@@ -17,10 +17,12 @@ function showNotification({
     }
 
     try {
+        const appIcon = nativeImage.createFromPath(ICON_PATH);
+
         const notification = new Notification({
             title,
             body,
-            icon: ICON_PATH,
+            icon: appIcon,
             silent,
         });
 

@@ -24,6 +24,7 @@ try {
 const { createLauncherConfig, setupConfigIPC } = require('./backend/config-manager');
 const { setupWindowManager } = require('./backend/window-manager');
 const { GameManager, setupGameManagerIPC } = require('./backend/game-manager');
+const { assetCache } = require('./backend/asset-cache');
 
 let mainWindow;
 let launcherConfig;
@@ -60,19 +61,46 @@ if (!app.requestSingleInstanceLock()) {
 async function fetchInitialData() {
     try {
         const { CoreUtils } = require('./backend/core');
-        const apiUrl = 'https://prod-alicdn-gamestarter.kurogame.com/launcher/50004_obOHXFrFanqsaIEOmuKroCcbZkQRBC7c/G153/background/U82Wn9dbNc2o7zZBWz1cOnJm9r52qFKH/en.json';
-        const timestamp = Date.now();
-        const urlWithTimestamp = `${apiUrl}?_t=${timestamp}`;
+        const WALLPAPER_API_URL = 'https://prod-alicdn-gamestarter.kurogame.com/launcher/50004_obOHXFrFanqsaIEOmuKroCcbZkQRBC7c/G153/background/U82Wn9dbNc2o7zZBWz1cOnJm9r52qFKH/en.json';
 
-        logger.info('Fetching initial remote assets...');
+        await assetCache.initialize();
+
+        // Try to get cached assets for instant startup
+        const cachedAssets = await assetCache.getInitialAssets(WALLPAPER_API_URL);
+        if (cachedAssets) {
+            logger.info('Using cached assets for instant startup');
+
+            return {
+                backgroundVideo: cachedAssets.backgroundFile,
+                backgroundImage: null,
+                updateImage: cachedAssets.slogan,
+                functionSwitch: null,
+                backgroundFileType: null,
+                fromCache: true
+            };
+        }
+
+        // First launch - fetch everything
+        const timestamp = Date.now();
+        const urlWithTimestamp = `${WALLPAPER_API_URL}?_t=${timestamp}`;
+
+        logger.info('Fetching initial remote assets (first launch)...');
         const response = await CoreUtils.httpRequest(urlWithTimestamp);
         const wallpaperData = JSON.parse(response);
 
-        logger.info('Successfully fetched initial remote assets.');
+        const cachedData = await assetCache.updateAssets({
+            backgroundFile: wallpaperData.backgroundFile,
+            slogan: wallpaperData.slogan
+        });
+
+        // Cache social icons on first launch
+        await assetCache.cacheSocialIcons();
+
+        logger.info('Successfully fetched and cached initial remote assets.');
         return {
-            backgroundVideo: wallpaperData.backgroundFile,
+            backgroundVideo: cachedData?.backgroundFile || wallpaperData.backgroundFile,
             backgroundImage: wallpaperData.firstFrameImage,
-            updateImage: wallpaperData.slogan,
+            updateImage: cachedData?.slogan || wallpaperData.slogan,
             functionSwitch: wallpaperData.functionSwitch,
             backgroundFileType: wallpaperData.backgroundFileType
         };
@@ -134,6 +162,20 @@ function createWindow() {
         }
 
         initialDataPromise = fetchInitialData();
+
+        ipcMain.handle('get-social-icon', async (event, platform) => {
+            const { CoreUtils } = require('./backend/core');
+            try {
+                const iconPath = await assetCache.getCachedSocialIcon(platform);
+                if (iconPath) {
+                    return { success: true, path: iconPath };
+                }
+                return { success: false, error: 'Icon not cached' };
+            } catch (error) {
+                logger.error(`Failed to get social icon ${platform}:`, error);
+                return { success: false, error: error.message };
+            }
+        });
 
         mainWindow.loadFile(path.join(__dirname, 'frontend', 'index.html'));
 
@@ -241,7 +283,13 @@ function setupWindowListeners() {
         try {
             logger.info('Performing pre-show tasks...');
 
-            await initialDataPromise;
+            const initialData = await initialDataPromise;
+
+            if (initialData && initialData.fromCache) {
+                logger.info('Assets loaded from cache, showing window immediately');
+            } else {
+                logger.info('Assets loaded from remote, showing window');
+            }
 
             const { checkForLauncherUpdates } = require('./backend/updater');
             const { CoreUtils } = require('./backend/core');

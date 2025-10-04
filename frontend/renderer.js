@@ -123,7 +123,14 @@ class LauncherUI {
             const initialDataResponse = await window.api.invoke('get-initial-data');
             if (initialDataResponse.success) {
                 this.data.remoteAssets = initialDataResponse;
-                this.elements.UPDATE_TITLE_IMAGE.src = this.data.remoteAssets.updateImage;
+
+                if (this.data.remoteAssets.updateImage) {
+                    if (this.data.remoteAssets.fromCache || this.data.remoteAssets.updateImage.includes('\\') || this.data.remoteAssets.updateImage.includes('C:')) {
+                        this.elements.UPDATE_TITLE_IMAGE.src = `local-resource:///${this.data.remoteAssets.updateImage.replace(/\\/g, '/')}`;
+                    } else {
+                        this.elements.UPDATE_TITLE_IMAGE.src = this.data.remoteAssets.updateImage;
+                    }
+                }
             } else {
                 console.warn('Could not fetch initial remote assets:', initialDataResponse.error);
             }
@@ -131,6 +138,7 @@ class LauncherUI {
             this.setupEventListeners();
             this._setupCommunityTools();
             this._setupNewsPanel();
+            await this._loadSocialIcons();
             this._applyAppearanceSettings();
             this._loadSettingsToUI();
             this.updateUI();
@@ -850,7 +858,11 @@ class LauncherUI {
         if (config.type === 'custom' && config.path) {
             newWallpaperSrc = `file:///${config.path.replace(/\\/g, '/')}`;
         } else if (this.data.remoteAssets?.backgroundVideo) {
-            newWallpaperSrc = this.data.remoteAssets.backgroundVideo;
+            if (this.data.remoteAssets.fromCache || this.data.remoteAssets.backgroundVideo.includes('\\') || this.data.remoteAssets.backgroundVideo.includes('C:')) {
+                newWallpaperSrc = `local-resource:///${this.data.remoteAssets.backgroundVideo.replace(/\\/g, '/')}`;
+            } else {
+                newWallpaperSrc = this.data.remoteAssets.backgroundVideo;
+            }
         } else {
             newWallpaperSrc = 'images/wallpaper.mp4';
         }
@@ -1000,6 +1012,26 @@ class LauncherUI {
         }
     }
 
+    async _loadSocialIcons() {
+        try {
+            const platforms = ['discord', 'youtube', 'x'];
+
+            for (const platform of platforms) {
+                const result = await window.api.invoke('get-social-icon', platform);
+
+                if (result.success && result.path) {
+                    const iconElement = document.querySelector(`.social-item[data-platform="${platform}"] img`);
+                    if (iconElement) {
+                        const iconPath = result.path.replace(/\\/g, '/');
+                        iconElement.src = `local-resource:///${iconPath}`;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Failed to load social icons:', error);
+        }
+    }
+
     async _setupNewsPanel() {
         const noticeContainer = this.elements.NEWS_CONTENT_NOTICE;
         const newsContainer = this.elements.NEWS_CONTENT_NEWS;
@@ -1073,13 +1105,19 @@ class LauncherUI {
 
         if (!container || !dotsContainer || !slides || slides.length === 0) return;
 
-        container.innerHTML = slides.map(slide => `
-            <div class="slide">
-                <a href="#" data-url="${slide.jumpUrl}">
-                    <img src="${slide.url}" alt="${slide.carouselNotes || 'Banner'}">
-                </a>
-            </div>
-        `).join('');
+        container.innerHTML = slides.map(slide => {
+            let imageUrl = slide.url;
+            if (slide.cachedUrl) {
+                imageUrl = `local-resource:///${slide.cachedUrl.replace(/\\/g, '/')}`;
+            }
+            return `
+                <div class="slide">
+                    <a href="#" data-url="${slide.jumpUrl}">
+                        <img src="${imageUrl}" alt="${slide.carouselNotes || 'Banner'}">
+                    </a>
+                </div>
+            `;
+        }).join('');
 
         dotsContainer.innerHTML = slides.map((_, i) => `<div class="dot" data-index="${i}"></div>`).join('');
 

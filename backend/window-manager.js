@@ -2,8 +2,6 @@ const {
     Tray,
     Menu,
     ipcMain,
-    app,
-    BrowserWindow,
     shell
 } = require('electron');
 const path = require('path');
@@ -101,8 +99,7 @@ class WindowManager {
 
         return Menu.buildFromTemplate([{
             label: 'Show Launcher',
-            click: () => this.showWindow(),
-            accelerator: 'CmdOrCtrl+Shift+L'
+            click: () => this.showWindow()
         }, {
             type: 'separator'
         }, {
@@ -154,8 +151,7 @@ class WindowManager {
             type: 'separator'
         }, {
             label: 'Quit',
-            click: () => this.quitApp(),
-            accelerator: 'CmdOrCtrl+Q'
+            click: () => this.quitApp()
         }]);
     }
 

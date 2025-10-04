@@ -245,11 +245,22 @@ async function handleMoveGameLocation(launcherConfig, win) {
 
 async function getNewsData() {
     try {
-        logger.info('Fetching news data from server');
+        const { assetCache } = require('./asset-cache');
+
+        // Try to get cached news data (automatically triggers background update if needed)
+        const cachedNews = await assetCache.getCachedNewsData();
+        if (cachedNews) {
+            logger.info('Returning cached news data');
+            return CoreUtils.createStandardResponse(true, { data: cachedNews });
+        }
+
+        // No cache available - fetch fresh data
+        logger.info('Fetching news data from server (no cache available)');
         const result = await CoreUtils.fetchNewsData();
 
         if (result.success) {
-            logger.info('Successfully fetched news data');
+            await assetCache.cacheNewsBanners(result.data.data);
+            logger.info('Successfully fetched and cached news data');
             return result;
         } else {
             logger.error('Failed to fetch news data:', result.error);

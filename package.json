@@ -1,7 +1,7 @@
 {
     "name": "peebify-launcher",
     "productName": "Peebify Launcher",
-    "version": "2.4.4",
+    "version": "2.4.5",
     "description": "A launcher for Wuthering Waves inspired by the character Phoebe.",
     "main": "main.js",
     "scripts": {
@@ -11,9 +11,9 @@
         "dist": "npm run build"
     },
     "author": "Acheuy",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
-        "electron": "^38.1.2",
+        "electron": "^38.2.1",
         "electron-builder": "^26.0.12"
     },
     "dependencies": {
