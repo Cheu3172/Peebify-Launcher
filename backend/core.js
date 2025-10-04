@@ -34,7 +34,7 @@ const CONSTANTS = {
     MAX_CONCURRENT_DOWNLOADS: 8,
     MAX_CONCURRENT_REPAIRS: 8,
 
-    BUILD_TYPE: 'beta', // Manually set to 'stable' or 'beta'
+    BUILD_TYPE: 'stable', // Set to 'stable' or 'beta'
     APP_ID: '50004',
     APP_USER_MODEL_ID: 'com.peebify.launcher',
     TASK_NAME: 'PeebifyLauncherStartup'
@@ -490,19 +490,32 @@ class CoreUtils {
 
     static async manageWindowsStartup(enable, execPath) {
         const taskName = CONSTANTS.TASK_NAME;
+        const appName = 'PeebifyLauncher';
 
         try {
             if (enable) {
+
+                const escapedPath = execPath.replace(/\\/g, '\\\\');
+                const regCommand = `reg add "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" /v "${appName}" /t REG_SZ /d "\\"${escapedPath}\\" --from-boot" /f`;
+                await this.execAsync(regCommand);
 
                 const command = `schtasks /create /tn "${taskName}" /tr "\\"${execPath}\\" --from-boot" /sc onlogon /rl highest /f`;
                 await this.execAsync(command);
             } else {
 
+                const regCommand = `reg delete "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" /v "${appName}" /f`;
+                try {
+                    await this.execAsync(regCommand);
+                } catch (error) {
+                    if (!error.message.includes('unable to find')) {
+                        throw error;
+                    }
+                }
+
                 const command = `schtasks /delete /tn "${taskName}" /f`;
                 try {
                     await this.execAsync(command);
                 } catch (error) {
-
                     if (!error.message.includes('cannot find')) {
                         throw error;
                     }

@@ -307,12 +307,7 @@ function setupConfigIPC(launcherConfig) {
     });
 
     ipcMain.handle('get-app-version', () => {
-        let version = app.getVersion();
-        if (CONSTANTS.BUILD_TYPE === 'beta') {
-            version = `${version}-beta`;
-        } else if (CONSTANTS.BUILD_TYPE === 'stable') {
-            version = `${version}-stable`;
-        }
+        const version = app.getVersion();
         return CoreUtils.createStandardResponse(true, {
             version: version
         });

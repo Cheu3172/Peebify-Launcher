@@ -198,9 +198,7 @@ class LauncherUI {
 
     async _checkForBetaBuild() {
         try {
-            const {
-                buildType
-            } = await window.api.invoke('get-build-info');
+            const { buildType } = await window.api.invoke('get-build-info');
             if (buildType === 'beta' && this.elements.BETA_BUILD_INDICATOR) {
                 this.elements.BETA_BUILD_INDICATOR.classList.remove('hidden');
             }
