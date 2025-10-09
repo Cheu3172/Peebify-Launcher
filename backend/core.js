@@ -9,8 +9,6 @@ const { exec } = require('child_process');
 const { app } = require('electron');
 
 const CONSTANTS = {
-    GAME_CONFIG_URL: 'https://prod-alicdn-gamestarter.kurogame.com/launcher/game/G153/50004_obOHXFrFanqsaIEOmuKroCcbZkQRBC7c/index.json',
-    NEWS_URL: 'https://prod-alicdn-gamestarter.kurogame.com/launcher/50004_obOHXFrFanqsaIEOmuKroCcbZkQRBC7c/G153/information/en.json',
 
     GAME_EXECUTABLE: 'Wuthering Waves.exe',
     GAME_CLIENT_PROCESS: 'Client-Win64-Shipping.exe',
@@ -527,12 +525,18 @@ class CoreUtils {
         }
     }
 
-    static async fetchNewsData() {
+    static async fetchNewsData(apiConfig) {
         try {
+            if (!apiConfig) {
+                throw new Error('API config is required to fetch news data');
+            }
+
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), CONSTANTS.HTTP_TIMEOUT);
 
-            const data = await this.httpRequest(CONSTANTS.NEWS_URL, controller.signal);
+            const newsUrl = apiConfig.getNewsUrl();
+
+            const data = await this.httpRequest(newsUrl, controller.signal);
             clearTimeout(timeoutId);
 
             const newsData = JSON.parse(data);

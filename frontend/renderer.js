@@ -544,6 +544,12 @@ class LauncherUI {
 
     _setupIPCListeners() {
         const ipcEvents = {
+            'window-focused': () => {
+                this._resumeBackgroundVideo();
+            },
+            'window-blurred': () => {
+                this._pauseBackgroundVideo();
+            },
             'game-started': () => {
                 this.state.isGameRunning = true;
                 this._startLivePlaytimeCounter();
@@ -845,6 +851,22 @@ class LauncherUI {
             document.querySelector(selector)?.classList.toggle(CLASSES.HIDDEN, !isVisible);
         }
         this._applyWallpaper();
+    }
+
+    _pauseBackgroundVideo() {
+        const container = this.elements.BACKGROUND_CONTAINER;
+        const video = container?.querySelector('video');
+        if (video && !video.paused) {
+            video.pause();
+        }
+    }
+
+    _resumeBackgroundVideo() {
+        const container = this.elements.BACKGROUND_CONTAINER;
+        const video = container?.querySelector('video');
+        if (video && video.paused) {
+            video.play().catch(err => console.warn('Failed to resume video:', err));
+        }
     }
 
     _applyWallpaper() {

@@ -25,6 +25,7 @@ const { createLauncherConfig, setupConfigIPC } = require('./backend/config-manag
 const { setupWindowManager } = require('./backend/window-manager');
 const { GameManager, setupGameManagerIPC } = require('./backend/game-manager');
 const { assetCache } = require('./backend/asset-cache');
+const { apiConfig } = require('./backend/api-config');
 
 let mainWindow;
 let launcherConfig;
@@ -61,7 +62,12 @@ if (!app.requestSingleInstanceLock()) {
 async function fetchInitialData() {
     try {
         const { CoreUtils } = require('./backend/core');
-        const WALLPAPER_API_URL = 'https://prod-alicdn-gamestarter.kurogame.com/launcher/50004_obOHXFrFanqsaIEOmuKroCcbZkQRBC7c/G153/background/U82Wn9dbNc2o7zZBWz1cOnJm9r52qFKH/en.json';
+
+        // Initialize API config first
+        await apiConfig.initialize();
+        const WALLPAPER_API_URL = apiConfig.getWallpaperUrl();
+
+        logger.info(`Using wallpaper API URL: ${WALLPAPER_API_URL}`);
 
         await assetCache.initialize();
 
@@ -80,7 +86,6 @@ async function fetchInitialData() {
             };
         }
 
-        // First launch - fetch everything
         const timestamp = Date.now();
         const urlWithTimestamp = `${WALLPAPER_API_URL}?_t=${timestamp}`;
 
@@ -93,8 +98,7 @@ async function fetchInitialData() {
             slogan: wallpaperData.slogan
         });
 
-        // Cache social icons on first launch
-        await assetCache.cacheSocialIcons();
+        await assetCache.cacheSocialIcons(false, apiConfig);
 
         logger.info('Successfully fetched and cached initial remote assets.');
         return {

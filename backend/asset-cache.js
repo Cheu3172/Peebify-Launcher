@@ -8,7 +8,6 @@ const { logger } = require('./logger');
 
 const CACHE_DIR = CoreUtils.getAppDataPath('asset-cache');
 const CACHE_MANIFEST_FILE = path.join(CACHE_DIR, 'manifest.json');
-const SOCIAL_ICONS_API = 'https://prod-alicdn-gamestarter.kurogame.com/launcher/G153/50004_obOHXFrFanqsaIEOmuKroCcbZkQRBC7c/social/en.json';
 
 class AssetCache {
     constructor() {
@@ -163,13 +162,19 @@ class AssetCache {
         }
     }
 
-    async cacheSocialIcons(forceRedownload = false) {
+    async cacheSocialIcons(forceRedownload = false, apiConfig) {
         try {
+            if (!apiConfig) {
+                throw new Error('API config is required to cache social icons');
+            }
+
+            const socialIconsUrl = apiConfig.getSocialIconsUrl();
+
             logger.info('Caching social icons from Kuro Games API...');
-            logger.debug(`API URL: ${SOCIAL_ICONS_API}`);
+            logger.debug(`API URL: ${socialIconsUrl}`);
             const results = {};
 
-            const response = await CoreUtils.httpRequest(SOCIAL_ICONS_API);
+            const response = await CoreUtils.httpRequest(socialIconsUrl);
             logger.debug(`API Response length: ${response.length}`);
 
             const apiData = JSON.parse(response);
@@ -339,10 +344,15 @@ class AssetCache {
         return null;
     }
 
-    async checkAndUpdateNewsData() {
+    async checkAndUpdateNewsData(apiConfig) {
         try {
+            if (!apiConfig) {
+                logger.warn('Cannot check news data updates without API config');
+                return;
+            }
+
             logger.info('Checking news data for updates...');
-            const result = await CoreUtils.fetchNewsData();
+            const result = await CoreUtils.fetchNewsData(apiConfig);
 
             if (result.success) {
                 await this.cacheNewsBanners(result.data.data);

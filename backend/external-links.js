@@ -17,6 +17,7 @@ const {
 const {
     logger
 } = require('./logger');
+const { apiConfig } = require('./api-config');
 
 async function openExternalUrl(url) {
     if (!url?.trim()) {
@@ -247,16 +248,14 @@ async function getNewsData() {
     try {
         const { assetCache } = require('./asset-cache');
 
-        // Try to get cached news data (automatically triggers background update if needed)
         const cachedNews = await assetCache.getCachedNewsData();
         if (cachedNews) {
             logger.info('Returning cached news data');
             return CoreUtils.createStandardResponse(true, { data: cachedNews });
         }
 
-        // No cache available - fetch fresh data
         logger.info('Fetching news data from server (no cache available)');
-        const result = await CoreUtils.fetchNewsData();
+        const result = await CoreUtils.fetchNewsData(apiConfig);
 
         if (result.success) {
             await assetCache.cacheNewsBanners(result.data.data);

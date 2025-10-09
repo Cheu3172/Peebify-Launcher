@@ -8,6 +8,7 @@ const {
     GameUtils
 } = require('./core');
 const { logger } = require('./logger');
+const { apiConfig } = require('./api-config');
 
 class PlaytimeTracker {
     constructor(launcherConfig) {
@@ -276,7 +277,13 @@ class GameManager {
     }
 
     async fetchGameConfig() {
-        const response = await CoreUtils.httpRequest(CONSTANTS.GAME_CONFIG_URL);
+        if (!apiConfig || !apiConfig.config) {
+            throw new Error('API config is required to fetch game configuration');
+        }
+
+        const gameConfigUrl = apiConfig.getGameConfigUrl();
+        logger.debug(`Fetching game config from: ${gameConfigUrl}`);
+        const response = await CoreUtils.httpRequest(gameConfigUrl);
         return JSON.parse(response);
     }
 
