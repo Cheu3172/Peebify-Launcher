@@ -277,11 +277,7 @@ class GameManager {
     }
 
     async fetchGameConfig() {
-        if (!apiConfig || !apiConfig.config) {
-            throw new Error('API config is required to fetch game configuration');
-        }
-
-        const gameConfigUrl = apiConfig.getGameConfigUrl();
+        const gameConfigUrl = CONSTANTS.GAME_CONFIG_URL;
         logger.debug(`Fetching game config from: ${gameConfigUrl}`);
         const response = await CoreUtils.httpRequest(gameConfigUrl);
         return JSON.parse(response);

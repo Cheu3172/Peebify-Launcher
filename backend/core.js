@@ -10,6 +10,8 @@ const { app } = require('electron');
 
 const CONSTANTS = {
 
+    GAME_CONFIG_URL: 'https://prod-alicdn-gamestarter.kurogame.com/launcher/game/G153/50004_obOHXFrFanqsaIEOmuKroCcbZkQRBC7c/index.json',
+
     GAME_EXECUTABLE: 'Wuthering Waves.exe',
     GAME_CLIENT_PROCESS: 'Client-Win64-Shipping.exe',
 

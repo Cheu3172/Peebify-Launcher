@@ -41,13 +41,11 @@ class ApiConfig {
 
     logCurrentUrls() {
         try {
-            logger.info('=== Current API URLs from GitHub ===');
-            logger.info(`Game Config: ${this.getGameConfigUrl()}`);
+            logger.info('=== Dynamic Visual Asset URLs from GitHub ===');
             logger.info(`News: ${this.getNewsUrl()}`);
             logger.info(`Wallpaper: ${this.getWallpaperUrl()}`);
             logger.info(`Social Icons: ${this.getSocialIconsUrl()}`);
-            logger.info(`Repair Index: ${this.getRepairIndexUrl()}`);
-            logger.info('====================================');
+            logger.info('==============================================');
         } catch (error) {
             logger.warn('Could not log API URLs:', error.message);
         }
@@ -124,7 +122,7 @@ class ApiConfig {
             }
 
             const osLive = config.clients.osLive;
-            const requiredKeys = ['client', 'news-notices', 'wallpapers-slogan', 'socials-icons', 'localpath-index'];
+            const requiredKeys = ['news-notices', 'wallpapers-slogan', 'socials-icons'];
 
             for (const key of requiredKeys) {
                 if (!osLive[key]?.url) {
@@ -152,13 +150,6 @@ class ApiConfig {
         }, 5000);
     }
 
-    getGameConfigUrl() {
-        if (!this.config?.clients?.osLive?.client?.url) {
-            throw new Error('Game config URL not available in API configuration');
-        }
-        return this.config.clients.osLive.client.url;
-    }
-
     getNewsUrl() {
         if (!this.config?.clients?.osLive?.['news-notices']?.url) {
             throw new Error('News URL not available in API configuration');
@@ -181,16 +172,8 @@ class ApiConfig {
         return url.split('?')[0];
     }
 
-    getRepairIndexUrl() {
-        if (!this.config?.clients?.osLive?.['localpath-index']?.url) {
-            throw new Error('Repair index URL not available in API configuration');
-        }
-        return this.config.clients.osLive['localpath-index'].url;
-    }
-
     getAllUrls() {
         return {
-            gameConfig: this.getGameConfigUrl(),
             news: this.getNewsUrl(),
             wallpaper: this.getWallpaperUrl(),
             socialIcons: this.getSocialIconsUrl()
